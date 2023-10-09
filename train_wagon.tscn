@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://bb25cktlwmq66"]
+
+[ext_resource type="Script" path="res://wagon.gd" id="1_neg1v"]
+[ext_resource type="Texture2D" uid="uid://cdk2sl55r45gt" path="res://wagon1_vertical.png" id="2_qd3w7"]
+[ext_resource type="Script" path="res://CollisionShape2D.gd" id="3_0difu"]
+[ext_resource type="Script" path="res://Area2D.gd" id="3_gfm8r"]
+[ext_resource type="Texture2D" uid="uid://vnavii6ria6x" path="res://wagon_selected.png" id="4_jcu4t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rsu1p"]
+size = Vector2(17, 31)
+
+[node name="WagonFollow2D" type="PathFollow2D"]
+position = Vector2(187, 62)
+
+[node name="wagon" type="Node2D" parent="."]
+rotation = 1.5708
+script = ExtResource("1_neg1v")
+
+[node name="WagonSprite" type="Sprite2D" parent="wagon"]
+texture = ExtResource("2_qd3w7")
+
+[node name="Area2D" type="Area2D" parent="wagon"]
+script = ExtResource("3_gfm8r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wagon/Area2D"]
+position = Vector2(-1.5, 0.500031)
+shape = SubResource("RectangleShape2D_rsu1p")
+script = ExtResource("3_0difu")
+
+[node name="SpriteHighlighted" type="Sprite2D" parent="wagon"]
+visible = false
+texture = ExtResource("4_jcu4t")
+
+[node name="_Timer_58224" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true

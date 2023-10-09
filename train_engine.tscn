@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://ccop7ogw78ff6"]
+
+[ext_resource type="Script" path="res://train_node.gd" id="1_pn3dm"]
+[ext_resource type="Texture2D" uid="uid://ciqiadj2uxo5w" path="res://train_vertical.png" id="2_8v0t7"]
+[ext_resource type="Texture2D" uid="uid://b5gfbf8yy1wba" path="res://basic_turret.png" id="3_721u5"]
+[ext_resource type="Script" path="res://Area2D.gd" id="4_xrf4v"]
+[ext_resource type="Texture2D" uid="uid://vnavii6ria6x" path="res://wagon_selected.png" id="5_ry6ig"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dh65x"]
+size = Vector2(16, 31)
+
+[node name="PathFollow2D" type="PathFollow2D"]
+position = Vector2(218.989, 62)
+progress = 32.0
+
+[node name="train_node" type="Node2D" parent="."]
+position = Vector2(0, 3.05176e-05)
+rotation = 1.5708
+script = ExtResource("1_pn3dm")
+
+[node name="Sprite2D" type="Sprite2D" parent="train_node"]
+texture = ExtResource("2_8v0t7")
+
+[node name="TurretSprite" type="Sprite2D" parent="train_node"]
+position = Vector2(-3.05176e-05, -8)
+texture = ExtResource("3_721u5")
+
+[node name="Area2D" type="Area2D" parent="train_node"]
+script = ExtResource("4_xrf4v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="train_node/Area2D"]
+position = Vector2(-1.00002, 0.489059)
+shape = SubResource("RectangleShape2D_dh65x")
+
+[node name="SpriteHighlighted" type="Sprite2D" parent="train_node"]
+visible = false
+texture = ExtResource("5_ry6ig")
+
+[node name="_Timer_22761" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
