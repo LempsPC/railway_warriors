@@ -15,3 +15,5 @@ func _process(delta):
 func setSelected(selected):
 	self.selected = selected
 
+func setTrain(train):
+	self.train = train

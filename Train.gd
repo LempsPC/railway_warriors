@@ -6,7 +6,7 @@ const TRAIN_WAGON = preload("res://train_wagon.tscn")
 ##Prioerties
 #linked list of engines
 #linked list of wagons which is TrainNode
-
+var tree = null
 var items = []
 
 # Called when the node enters the scene tree for the first time.
@@ -27,10 +27,18 @@ func scream():
 func _init(parts):
 	self.items = parts
 	
-func deploy(tree):
-	var path2D = tree.root.find_child("Path2D", true, false)
 	
+func deploy(tree):
+	self.tree = tree
+	var path2D = tree.root.find_child("Path2D", true, false)
 	for i in range(self.items.size()):
 		path2D.add_child(self.items[i])
-		#self.items[i].find_child("train_node", true, false).train = self
+		var child = self.items[i].find_child("train_node", true, false)
+		if not child:
+			child = self.items[i].find_child("wagon", true, false)
+		child.setTrain(self)
+		
 		self.items[i].progress = -i*32
+
+func getTree():
+	return self.tree

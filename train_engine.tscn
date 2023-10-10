@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ccop7ogw78ff6"]
+[gd_scene load_steps=8 format=3 uid="uid://ccop7ogw78ff6"]
 
 [ext_resource type="Script" path="res://train_node.gd" id="1_pn3dm"]
 [ext_resource type="Texture2D" uid="uid://ciqiadj2uxo5w" path="res://train_vertical.png" id="2_8v0t7"]
 [ext_resource type="Texture2D" uid="uid://b5gfbf8yy1wba" path="res://basic_turret.png" id="3_721u5"]
+[ext_resource type="Script" path="res://turret2D.gd" id="3_sp4le"]
 [ext_resource type="Script" path="res://Area2D.gd" id="4_xrf4v"]
 [ext_resource type="Texture2D" uid="uid://vnavii6ria6x" path="res://wagon_selected.png" id="5_ry6ig"]
 
@@ -21,8 +22,11 @@ script = ExtResource("1_pn3dm")
 [node name="Sprite2D" type="Sprite2D" parent="train_node"]
 texture = ExtResource("2_8v0t7")
 
-[node name="TurretSprite" type="Sprite2D" parent="train_node"]
-position = Vector2(-3.05176e-05, -8)
+[node name="turret2D" type="Node2D" parent="train_node"]
+script = ExtResource("3_sp4le")
+
+[node name="TurretSprite" type="Sprite2D" parent="train_node/turret2D"]
+position = Vector2(-2.67029e-05, -8)
 texture = ExtResource("3_721u5")
 
 [node name="Area2D" type="Area2D" parent="train_node"]

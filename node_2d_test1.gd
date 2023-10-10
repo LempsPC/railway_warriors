@@ -9,6 +9,7 @@ var train1 = train_class.new([TRAIN_LOCOMOTIVE.instantiate(), TRAIN_WAGON.instan
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	train1.deploy(get_tree())
+	print(get_tree())
 	pass # Replace with function body.
 
 
