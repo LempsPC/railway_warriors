@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6fi7bga34ev5"]
+
+[ext_resource type="Script" uid="uid://cn50dtru8tdyp" path="res://main.gd" id="1_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://d18ggmqjtvv28" path="res://turret.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cob3jl58ja8lp" path="res://target.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dy1lqpso8dxe0" path="res://bullet.tscn" id="3_h2yge"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_1bvp3")
+
+[node name="Turret" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.9920731, -0.060916573, 0.10990999, 1.3110258e-08, 0.8746451, 0.48476386, -0.12566239, 0.48092118, -0.86771184, -4.585425, 4.8314505, -7.4975686)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8798145, -0.23041663, 0.4157339, 0, 0.8746451, 0.48476386, -0.47531727, 0.42650226, -0.7695254, -3.784464, 4.7661643, -8.657944)
+
+[node name="Target" parent="." instance=ExtResource("2_0xm2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.347998, 0, 11.005707)
+
+[node name="Bullet" parent="." instance=ExtResource("3_h2yge")]

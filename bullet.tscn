@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy1lqpso8dxe0"]
+
+[ext_resource type="Script" uid="uid://6uupmokpxw38" path="res://bullet.gd" id="1_v7oki"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_rtl8c"]
+
+[node name="Bullet" type="Node3D"]
+script = ExtResource("1_v7oki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("SphereMesh_rtl8c")
