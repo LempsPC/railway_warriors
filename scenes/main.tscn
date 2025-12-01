@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://k3e4afr6bq3q"]
+[gd_scene load_steps=7 format=3 uid="uid://k3e4afr6bq3q"]
 
 [ext_resource type="PackedScene" uid="uid://coc7h40qx11qe" path="res://scenes/floor_panel.tscn" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://b0122tyn8rkoc" path="res://scripts/track_pathfinding.gd" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://b1rxftg4g0bqr" path="res://scenes/RTS_Camera.tscn" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://caj3ecdbtme88" path="res://scenes/rail_straight.tscn" id="3_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://dsd85vc1jnc4s" path="res://scenes/rail_junction_right.tscn" id="4_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://cyoprcw3bmxxa" path="res://scenes/rail_turn.tscn" id="5_tefeu"]
 
 [node name="Main" type="Node3D"]
 
@@ -15,15 +17,45 @@ script = ExtResource("2_jyhfs")
 camera_position_node = NodePath("../CameraPosition")
 
 [node name="Rail_straight" parent="Track" instance=ExtResource("3_tbgi4")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(4.90117, 0, -0.989228, 0, 5, 0, 0.989228, 0, 4.90117, -15.5795, 0, -6.32289)
 
 [node name="Rail_straight4" parent="Track" instance=ExtResource("3_tbgi4")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -6.44897)
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, -9.28309, 0, 0.654613)
+
+[node name="Rail_straight6" parent="Track" instance=ExtResource("3_tbgi4")]
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, -7.46273, 0, -19.706)
+
+[node name="Rail_straight11" parent="Track" instance=ExtResource("3_tbgi4")]
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 9.06757, 0, -19.706)
+
+[node name="Rail_straight8" parent="Track" instance=ExtResource("3_tbgi4")]
+transform = Transform3D(-5, 0, -4.37114e-07, 0, 5, 0, 4.37114e-07, 0, -5, -15.0236, 0, -12.4338)
 
 [node name="Rail_straight3" parent="Track" instance=ExtResource("3_tbgi4")]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 13.742)
 
 [node name="Rail_straight2" parent="Track" instance=ExtResource("3_tbgi4")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 6.41191)
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -0.530226)
+
+[node name="Rail_straight5" parent="Track" instance=ExtResource("4_tbgi4")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.566669, 0, -12.9709)
+
+[node name="Rail_straight12" parent="Track" instance=ExtResource("4_tbgi4")]
+transform = Transform3D(-5, 0, 4.37114e-07, 0, 5, 0, -4.37114e-07, 0, -5, -0.724896, 0, -6.59386)
+
+[node name="Rail_straight7" parent="Track" instance=ExtResource("5_tefeu")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -1.6278, 0, -18.5847)
+
+[node name="Rail_straight13" parent="Track" instance=ExtResource("5_tefeu")]
+transform = Transform3D(-2.18557e-07, 0, -5, 0, 5, 0, 5, 0, -2.18557e-07, -3.32298, 0, -0.95573)
+
+[node name="Rail_straight9" parent="Track" instance=ExtResource("5_tefeu")]
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, -13.7442, 0, -18.1162)
+
+[node name="Rail_straight14" parent="Track" instance=ExtResource("5_tefeu")]
+transform = Transform3D(-5, 0, -4.37114e-07, 0, 5, 0, 4.37114e-07, 0, -5, -14.8744, 0, -0.438002)
+
+[node name="Rail_straight10" parent="Track" instance=ExtResource("5_tefeu")]
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 3.15004, 0, -18.2777)
 
 [node name="CameraPosition" parent="." instance=ExtResource("2_sugp2")]

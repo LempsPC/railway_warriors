@@ -1,7 +1,8 @@
 extends Node3D
 
-@export var graph = {}
+var graph = {}
 @export var camera_position_node: Node3D = null
+var point_scene = preload("res://scenes/point.tscn")
 
 func _ready() -> void:
 	var connections = get_node_data()
@@ -10,6 +11,18 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var connections = get_node_data()
 	graph = connections_to_graph(connections)
+
+func visualize_path(path):
+	var points = []
+	for point in path:
+		var point_instance = point_scene.instantiate()
+		point_instance.position = point
+		add_child(point_instance)
+		points.append(point_instance)
+	await get_tree().create_timer(1.0).timeout
+	for point_instance in points:
+		point_instance.queue_free()
+	
 
 #var graph = {
 	#"A": {"B": 3, "E": 3},
@@ -29,6 +42,8 @@ func _process(delta: float) -> void:
 #}
 
 func _input(event):
+	if event.is_action_pressed("R"):
+		print(graph)
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			var collision_pos = shoot_ray_from_mouse(event.position).position
@@ -175,6 +190,7 @@ func dijkstra(start, goal) -> Variant:
 			while temp != null:
 				path.insert(0, temp)
 				temp = previous[temp]
+			visualize_path(path)
 			return {"path": path, "cost": distances[goal]}
 		
 		# Visit neighbors

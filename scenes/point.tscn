@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://8vygg26pbt8s"]
+[gd_scene load_steps=5 format=3 uid="uid://h0c3ywypht8g"]
 
-[ext_resource type="Script" uid="uid://bogjdw5mr5ynl" path="res://scripts/connections.gd" id="1_ba3l5"]
+[ext_resource type="Script" uid="uid://bogjdw5mr5ynl" path="res://scripts/connections.gd" id="1_r0uly"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qbeq7"]
 transparency = 1
-albedo_color = Color(1, 0.176471, 0.0196078, 0)
+albedo_color = Color(0, 0.592157, 0.858824, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_qbeq7"]
 material = SubResource("StandardMaterial3D_qbeq7")
@@ -12,7 +12,7 @@ material = SubResource("StandardMaterial3D_qbeq7")
 [sub_resource type="SphereShape3D" id="SphereShape3D_iyeiv"]
 
 [node name="Sphere" type="Area3D" groups=["navigation_point"]]
-script = ExtResource("1_ba3l5")
+script = ExtResource("1_r0uly")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_qbeq7")
