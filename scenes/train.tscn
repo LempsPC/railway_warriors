@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqi5jffitdiv3"]
+
+[ext_resource type="Script" uid="uid://ds6gsq811ngpk" path="res://scripts/train_navigation.gd" id="1_68jl8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_f48oq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d43s7"]
+
+[node name="Train" type="CharacterBody3D"]
+script = ExtResource("1_68jl8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_f48oq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0304761, 0.0335176)
+shape = SubResource("BoxShape3D_d43s7")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://k3e4afr6bq3q"]
+[gd_scene load_steps=8 format=3 uid="uid://k3e4afr6bq3q"]
 
 [ext_resource type="PackedScene" uid="uid://coc7h40qx11qe" path="res://scenes/floor_panel.tscn" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://b0122tyn8rkoc" path="res://scripts/track_pathfinding.gd" id="2_jyhfs"]
@@ -6,15 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://caj3ecdbtme88" path="res://scenes/rail_straight.tscn" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dsd85vc1jnc4s" path="res://scenes/rail_junction_right.tscn" id="4_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://cyoprcw3bmxxa" path="res://scenes/rail_turn.tscn" id="5_tefeu"]
+[ext_resource type="PackedScene" uid="uid://bqi5jffitdiv3" path="res://scenes/train.tscn" id="7_o6xl0"]
 
 [node name="Main" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.460077, 0.755191, -0.466922, -0.720887, -0.0107275, 0.692969, 0.518315, 0.655417, 0.549343, -40.123, 17.3195, 0)
 
-[node name="Track" parent="." node_paths=PackedStringArray("camera_position_node") instance=ExtResource("1_0wfyh")]
+[node name="Track" parent="." instance=ExtResource("1_0wfyh")]
 script = ExtResource("2_jyhfs")
-camera_position_node = NodePath("../CameraPosition")
 
 [node name="Rail_straight" parent="Track" instance=ExtResource("3_tbgi4")]
 transform = Transform3D(4.90117, 0, -0.989228, 0, 5, 0, 0.989228, 0, 4.90117, -15.5795, 0, -6.32289)
@@ -59,3 +59,8 @@ transform = Transform3D(-5, 0, -4.37114e-07, 0, 5, 0, 4.37114e-07, 0, -5, -14.87
 transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 3.15004, 0, -18.2777)
 
 [node name="CameraPosition" parent="." instance=ExtResource("2_sugp2")]
+
+[node name="Train" parent="." node_paths=PackedStringArray("camera_position_node", "track_pathfinding") instance=ExtResource("7_o6xl0")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.55398, 0.390016, 1.05937)
+camera_position_node = NodePath("../CameraPosition")
+track_pathfinding = NodePath("../Track")

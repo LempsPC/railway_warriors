@@ -1,7 +1,6 @@
 extends Node3D
 
 var graph = {}
-@export var camera_position_node: Node3D = null
 var point_scene = preload("res://scenes/point.tscn")
 
 func _ready() -> void:
@@ -41,31 +40,6 @@ func visualize_path(path):
 	#"(0.0,1.0,0.0)": ["(0.0,0.0,0.0)"]
 #}
 
-func _input(event):
-	if event.is_action_pressed("R"):
-		print(graph)
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_RIGHT:
-			var collision_pos = shoot_ray_from_mouse(event.position).position
-			find_closest_node_to_click(collision_pos)
-
-func shoot_ray_from_mouse(mouse_pos: Vector2):
-	var camera = camera_position_node.get_child(0).get_child(0).get_child(0)
-	var ray_origin = camera.project_ray_origin(mouse_pos)
-	var ray_direction = camera.project_ray_normal(mouse_pos)
-	var ray_end = ray_origin + ray_direction * 1000  # Length of ray
-
-	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
-	var result = space_state.intersect_ray(query)
-
-	if result:
-		print("Hit at position:", result.position)
-		print("Collider:", result.collider)
-		return result
-	else:
-		print("No hit.")
-		return null
 
 func connections_to_graph(connections):
 	var graph = {}
@@ -144,28 +118,22 @@ func get_node_data() -> Dictionary:
 		#}
 	#}
 	#data["segments"].merge(new_dictionary)
-
-
-func find_closest_node_to_click(click_pos):
+func shortest_path(click_pos, start_pos):
 	var current_closest_point_dist = INF
-	var closest_point = null
+	var goal = find_closest_node(click_pos)
+	var start = find_closest_node(start_pos)
+	var result = dijkstra(start, goal)
+	return result
+	
+func find_closest_node(_position):
+	var current_closest_point_dist = INF
+	var goal = null
 	for point in graph:
-		var dist_to_point = click_pos.distance_to(point)
+		var dist_to_point = _position.distance_to(point)
 		if dist_to_point < current_closest_point_dist:
 			current_closest_point_dist = dist_to_point
-			closest_point = point
-	var goal = closest_point
-	#closest_point.blink_blue()
-	# Make the first point on graph the navigation starting point
-	var temporary_start = (graph.keys()[0])
-	var result = dijkstra(temporary_start, goal)
-	print(result)
-	
-	#if result:
-		#print("Shortest path from %s to %s: %s" % [temporary_start, goal, result["path"]])
-		#print("Total cost: %d" % result["cost"])
-	#else:
-		#print("No path found.")
+			goal = point
+	return goal
 	
 #Dijkstra’s algorithm (returns Dictionary or null)
 func dijkstra(start, goal) -> Variant:
@@ -191,7 +159,8 @@ func dijkstra(start, goal) -> Variant:
 				path.insert(0, temp)
 				temp = previous[temp]
 			visualize_path(path)
-			return {"path": path, "cost": distances[goal]}
+			print({"path": path, "cost": distances[goal]})
+			return path
 		
 		# Visit neighbors
 		for neighbor in graph[current].keys():
