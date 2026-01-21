@@ -1,12 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://dy1lqpso8dxe0"]
+[gd_scene load_steps=4 format=3 uid="uid://dy1lqpso8dxe0"]
 
 [ext_resource type="Script" uid="uid://6uupmokpxw38" path="res://bullet.gd" id="1_v7oki"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_rtl8c"]
 
-[node name="Bullet" type="Node3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_v7oki"]
+
+[node name="Bullet" type="Area3D"]
+collision_layer = 8
+collision_mask = 5
 script = ExtResource("1_v7oki")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("SphereMesh_rtl8c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_v7oki")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

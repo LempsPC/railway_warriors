@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://d18ggmqjtvv28"]
+[gd_scene load_steps=6 format=3 uid="uid://d18ggmqjtvv28"]
+
+[ext_resource type="Script" uid="uid://drhqgq17cabkt" path="res://turret.gd" id="1_3oylf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8xk5y"]
 albedo_color = Color(1, 0, 0, 1)
@@ -6,8 +8,25 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="PrismMesh" id="PrismMesh_8xk5y"]
 material = SubResource("StandardMaterial3D_8xk5y")
 
-[node name="Turret" type="Node3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_8xk5y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3oylf"]
+
+[node name="Turret" type="Area3D"]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_3oylf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0)
 mesh = SubResource("PrismMesh_8xk5y")
+
+[node name="Range" type="CollisionShape3D" parent="."]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
+shape = SubResource("SphereShape3D_8xk5y")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0)
+shape = SubResource("BoxShape3D_3oylf")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
