@@ -16,14 +16,19 @@ var max_zoom = 20.0
 
 func _ready() -> void:
 	move_target = position
-	rotate_keys_speed = rotation_degrees.y
+	rotate_keys_target = rotation_degrees.y
 	zoom_target = camera.position.z
 	
 func _process(delta: float) -> void:
 	# get input directions
+	var ctrl_held = Input.is_key_pressed(KEY_CTRL)
 	var input_direction = Input.get_vector("left", "right", "up", "down")
+	if ctrl_held:
+		input_direction.x = 0.0
 	var movement_direction = (transform.basis * Vector3(input_direction.x, 0, input_direction.y)).normalized()
 	var rotate_keys = Input.get_axis("rotate_left", "rotate_right")
+	if ctrl_held:
+		rotate_keys += Input.get_axis("left", "right")
 	var zoom_dir = (int(Input.is_action_just_released("camera_zoom_out")) -
 					int(Input.is_action_just_released("camera_zoom_in")))
 	# set movement targets

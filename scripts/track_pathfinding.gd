@@ -1,4 +1,4 @@
-extends Node3D
+﻿extends Node3D
 
 var graph = {}
 var point_scene = preload("res://scenes/point.tscn")
@@ -118,12 +118,68 @@ func get_node_data() -> Dictionary:
 		#}
 	#}
 	#data["segments"].merge(new_dictionary)
-func shortest_path(click_pos, start_pos):
-	var current_closest_point_dist = INF
-	var goal = find_closest_node(click_pos)
-	var start = find_closest_node(start_pos)
-	var result = dijkstra(start, goal)
+func closest_point_on_segment(a: Vector3, b: Vector3, p: Vector3) -> Vector3:
+	var ab = b - a
+	var len_sq = ab.dot(ab)
+	if len_sq < 0.0001:
+		return a
+	return a + ab * clamp((p - a).dot(ab) / len_sq, 0.0, 1.0)
+
+func find_nearest_segment(pos: Vector3) -> Dictionary:
+	var min_dist = INF
+	var result = {"a": null, "b": null, "proj": Vector3.ZERO}
+	for a in graph:
+		for b in graph[a]:
+			var proj = closest_point_on_segment(a, b, pos)
+			var dist = pos.distance_to(proj)
+			if dist < min_dist:
+				min_dist = dist
+				result = {"a": a, "b": b, "proj": proj}
 	return result
+
+func path_length(path: Array) -> float:
+	var total = 0.0
+	for i in range(1, path.size()):
+		total += path[i - 1].distance_to(path[i])
+	return total
+
+func shortest_path(click_pos: Vector3, start_pos: Vector3):
+	var start_seg = find_nearest_segment(start_pos)
+	var dest_seg = find_nearest_segment(click_pos)
+	if start_seg.a == null or dest_seg.a == null:
+		return null
+
+	var best_path = null
+	var best_cost = INF
+
+	for start_node in [start_seg.a, start_seg.b]:
+		for dest_node in [dest_seg.a, dest_seg.b]:
+			var p = dijkstra(start_node, dest_node)
+			if p == null:
+				continue
+			var cost = start_pos.distance_to(start_node) + path_length(p) + dest_node.distance_to(dest_seg.proj)
+			if cost < best_cost:
+				best_cost = cost
+				best_path = p.duplicate()
+
+	if best_path == null:
+		print("No path found — destination track is not connected to start track.")
+		return null
+
+	if start_pos.distance_to(best_path.front()) > 0.1:
+		best_path.insert(0, start_pos)
+
+	if best_path.back().distance_to(dest_seg.proj) > 0.1:
+		best_path.append(dest_seg.proj)
+
+	print("=== PATH COMPUTED ===")
+	print("start_pos: ", start_pos)
+	print("start_seg: ", start_seg.a, " -> ", start_seg.b, "  proj: ", start_seg.proj)
+	print("dest_seg:  ", dest_seg.a, " -> ", dest_seg.b, "  proj: ", dest_seg.proj)
+	print("waypoints (", best_path.size(), "): ", best_path)
+	print("====================")
+	visualize_path(best_path)
+	return best_path
 	
 func find_closest_node(_position):
 	var current_closest_point_dist = INF
@@ -135,7 +191,7 @@ func find_closest_node(_position):
 			goal = point
 	return goal
 	
-#Dijkstra’s algorithm (returns Dictionary or null)
+#Dijkstraâ€™s algorithm (returns Dictionary or null)
 func dijkstra(start, goal) -> Variant:
 	var unvisited = graph.keys()
 	var distances = {}
@@ -158,8 +214,6 @@ func dijkstra(start, goal) -> Variant:
 			while temp != null:
 				path.insert(0, temp)
 				temp = previous[temp]
-			visualize_path(path)
-			print({"path": path, "cost": distances[goal]})
 			return path
 		
 		# Visit neighbors
