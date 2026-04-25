@@ -10,7 +10,7 @@ extends CharacterBody3D
 var path: Array = []
 var path_index: int = 0
 var current_speed: float = 0.0
-var facing_dir := Vector3.FORWARD
+var facing_dir := Vector3.RIGHT
 
 # TODO move input and raycasting out of here
 func _input(event):
