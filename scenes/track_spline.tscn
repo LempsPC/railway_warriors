@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://btrkspln4y2k0"]
+
+[ext_resource type="Script" path="res://scripts/track_spline.gd" id="1_script"]
+
+[node name="TrackSpline" type="Path3D"]
+script = ExtResource("1_script")
