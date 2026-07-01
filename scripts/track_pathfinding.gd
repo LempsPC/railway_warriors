@@ -1,5 +1,8 @@
 ﻿extends Node3D
 
+# Track within this distance of a parked wagon is considered blocked.
+const OBSTACLE_RADIUS := 1.5
+
 var graph = {}
 var point_scene = preload("res://scenes/point.tscn")
 
@@ -15,6 +18,10 @@ func visualize_path(path):
 	var points = []
 	for point in path:
 		var point_instance = point_scene.instantiate()
+		# Markers reuse the nav-sphere scene (Area3D + connections.gd); keep them
+		# invisible to physics so they don't register as track connections.
+		point_instance.monitoring = false
+		point_instance.monitorable = false
 		point_instance.position = point
 		add_child(point_instance)
 		points.append(point_instance)
@@ -143,7 +150,14 @@ func path_length(path: Array) -> float:
 		total += path[i - 1].distance_to(path[i])
 	return total
 
-func shortest_path(click_pos: Vector3, start_pos: Vector3):
+func _edge_blocked(a: Vector3, b: Vector3, obstacles: Array) -> bool:
+	for o in obstacles:
+		if closest_point_on_segment(a, b, o).distance_to(o) < OBSTACLE_RADIUS:
+			return true
+	return false
+
+# obstacles: positions of parked wagons the path must not drive through.
+func shortest_path(click_pos: Vector3, start_pos: Vector3, obstacles: Array = []):
 	var start_seg = find_nearest_segment(start_pos)
 	var dest_seg = find_nearest_segment(click_pos)
 	if start_seg.a == null or dest_seg.a == null:
@@ -154,7 +168,7 @@ func shortest_path(click_pos: Vector3, start_pos: Vector3):
 
 	for start_node in [start_seg.a, start_seg.b]:
 		for dest_node in [dest_seg.a, dest_seg.b]:
-			var p = dijkstra(start_node, dest_node)
+			var p = dijkstra(start_node, dest_node, obstacles)
 			if p == null:
 				continue
 			var cost = start_pos.distance_to(start_node) + path_length(p) + dest_node.distance_to(dest_seg.proj)
@@ -192,7 +206,7 @@ func find_closest_node(_position):
 	return goal
 	
 #Dijkstraâ€™s algorithm (returns Dictionary or null)
-func dijkstra(start, goal) -> Variant:
+func dijkstra(start, goal, obstacles: Array = []) -> Variant:
 	var unvisited = graph.keys()
 	var distances = {}
 	var previous = {}
@@ -205,8 +219,12 @@ func dijkstra(start, goal) -> Variant:
 	
 	while unvisited.size() > 0:
 		var current = get_closest_node_on_path(unvisited, distances)
+		# All remaining nodes are unreachable from start (different track network),
+		# otherwise popping the goal here would fabricate a bogus single-node path.
+		if distances[current] == INF:
+			return null
 		unvisited.erase(current)
-		
+
 		# If reached goal, reconstruct path
 		if current == goal:
 			var path = []
@@ -219,6 +237,8 @@ func dijkstra(start, goal) -> Variant:
 		# Visit neighbors
 		for neighbor in graph[current].keys():
 			if neighbor in unvisited:
+				if not obstacles.is_empty() and _edge_blocked(current, neighbor, obstacles):
+					continue
 				var alt = distances[current] + graph[current][neighbor]
 				if alt < distances[neighbor]:
 					distances[neighbor] = alt

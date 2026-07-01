@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://k3e4afr6bq3q"]
+[gd_scene load_steps=17 format=4 uid="uid://k3e4afr6bq3q"]
 
 [ext_resource type="PackedScene" uid="uid://coc7h40qx11qe" path="res://scenes/floor_panel.tscn" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://b0122tyn8rkoc" path="res://scripts/track_pathfinding.gd" id="2_jyhfs"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://btrkspln4y2k0" path="res://scenes/track_spline.tscn" id="6_choun"]
 [ext_resource type="PackedScene" uid="uid://bqi5jffitdiv3" path="res://scenes/train.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://8vygg26pbt8s" path="res://scenes/sphere.tscn" id="7_ya4ey"]
-[ext_resource type="Script" uid="uid://bogjdw5mr5ynl" path="res://scripts/connections.gd" id="8_eb6dy"]
 
 [sub_resource type="Curve3D" id="Curve3D_choun"]
 _data = {
@@ -31,24 +30,11 @@ material = SubResource("StandardMaterial3D_qbeq7")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_iyeiv"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trceg"]
-albedo_color = Color(0.55, 0.55, 0.55, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8y0u"]
-albedo_color = Color(0.34, 0.34, 0.34, 1)
-metallic = 0.7
-roughness = 0.3
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jkv2x"]
-albedo_color = Color(0.34, 0.34, 0.34, 1)
-metallic = 0.7
-roughness = 0.3
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_jbj1t"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_choun"]
 _surfaces = [{
 "aabb": AABB(-12.1916, 0, -9.84629, 21.3144, 0.1, 24.1319),
 "format": 34359738375,
-"material": SubResource("StandardMaterial3D_trceg"),
+"material": SubResource("ShaderMaterial_ya4ey"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 2916,
@@ -56,7 +42,7 @@ _surfaces = [{
 }, {
 "aabb": AABB(-11.942, 0.1, -9.60566, 20.8154, 0.1, 23.6532),
 "format": 34359738375,
-"material": SubResource("StandardMaterial3D_a8y0u"),
+"material": SubResource("FogMaterial_eb6dy"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 2916,
@@ -64,7 +50,7 @@ _surfaces = [{
 }, {
 "aabb": AABB(-10.5444, 0.1, -8.2581, 18.0212, 0.1, 20.9728),
 "format": 34359738375,
-"material": SubResource("StandardMaterial3D_jkv2x"),
+"material": SubResource("FogMaterial_eb6dy"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 2916,
@@ -123,267 +109,243 @@ transform = Transform3D(-5, 0, -4.37114e-07, 0, 5, 0, 4.37114e-07, 0, -5, -14.87
 transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 3.15004, 0, -18.2777)
 
 [node name="TrackSpline" parent="Track" instance=ExtResource("6_choun")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.8832, 0.239361, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.9775, 0.239361, -10.9875)
 curve = SubResource("Curve3D_choun")
 ballast_material = SubResource("ShaderMaterial_ya4ey")
 rail_material = SubResource("FogMaterial_eb6dy")
 
 [node name="Points" type="Node3D" parent="Track/TrackSpline"]
 
-[node name="Sphere_0" type="Area3D" parent="Track/TrackSpline/Points" node_paths=PackedStringArray("connections_list") groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_0" parent="Track/TrackSpline/Points" node_paths=PackedStringArray("connections_list") instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.368702, 0, -8.88375)
-script = ExtResource("8_eb6dy")
 connections_list = [NodePath("../Sphere_1")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_0"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_0"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_0"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_0"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_1" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_1" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 2.80125, 0, -8.19853)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_1"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_1"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_1"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_1"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_2" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_2" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 5.01634, 0, -7.14964)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_2"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_2"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_2"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_2"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_3" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_3" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 6.77117, 0, -5.33101)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_3"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_3"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_3"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_3"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_4" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_4" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 7.7092, 0, -3.14872)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_4"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_4"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_4"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_4"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_5" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_5" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 7.88645, 0, -0.627732)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_5"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_5"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_5"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_5"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_6" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_6" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 8.06371, 0, 1.89326)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_6"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_6"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_6"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_6"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_7" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_7" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 7.65826, 0, 4.34057)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_7"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_7"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_7"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_7"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_8" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_8" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 6.85908, 0, 6.7381)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_8"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_8"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_8"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_8"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_9" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_9" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 6.0599, 0, 9.13563)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_9"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_9"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_9"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_9"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_10" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_10" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 4.27685, 0, 10.7416)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_10"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_10"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_10"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_10"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_11" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_11" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 2.10611, 0, 12.0357)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_11"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_11"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_11"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_11"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_12" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_12" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.06464, 0, 13.3298)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_12"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_12"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_12"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_12"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_13" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_13" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -2.46148, 0, 12.6369)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_13"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_13"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_13"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_13"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_14" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_14" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -4.86745, 0, 11.8635)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_14"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_14"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_14"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_14"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_15" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_15" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -6.98429, 0, 10.7106)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_15"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_15"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_15"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_15"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_16" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_16" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -8.36882, 0, 8.5964)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_16"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_16"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_16"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_16"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_17" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_17" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -9.75334, 0, 6.48219)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_17"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_17"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_17"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_17"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_18" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_18" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -10.8693, 0, 4.28233)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_18"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_18"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_18"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_18"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_19" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_19" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -10.964, 0, 1.75689)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_19"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_19"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_19"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_19"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_20" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_20" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -11.0587, 0, -0.768547)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_20"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_20"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_20"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_20"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_21" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_21" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -11.1534, 0, -3.29399)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_21"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_21"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_21"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_21"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_22" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_22" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -10.1325, 0, -5.34484)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_22"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_22"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_22"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_22"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_23" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_23" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -8.24739, 0, -7.028)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_23"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_23"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_23"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_23"]
 shape = SubResource("SphereShape3D_iyeiv")
 
-[node name="Sphere_24" type="Area3D" parent="Track/TrackSpline/Points" groups=["navigation_point"] instance=ExtResource("7_ya4ey")]
+[node name="Sphere_24" parent="Track/TrackSpline/Points" instance=ExtResource("7_ya4ey")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -6.36225, 0, -8.71116)
-script = ExtResource("8_eb6dy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_24"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Track/TrackSpline/Points/Sphere_24"]
 mesh = SubResource("SphereMesh_qbeq7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_24"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Track/TrackSpline/Points/Sphere_24"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.366943, 0, 0.0796814)
 shape = SubResource("SphereShape3D_iyeiv")
 
 [node name="Mesh" type="MeshInstance3D" parent="Track/TrackSpline"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.113704, 0)
-mesh = SubResource("ArrayMesh_jbj1t")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028523, 0)
+mesh = SubResource("ArrayMesh_choun")
 
 [node name="CameraPosition" parent="." instance=ExtResource("2_sugp2")]
 
