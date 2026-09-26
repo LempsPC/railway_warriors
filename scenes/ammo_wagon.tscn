@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/health.gd" id="1_health"]
+[ext_resource type="Script" path="res://scripts/ammo.gd" id="2_ammo"]
+[ext_resource type="Script" path="res://scripts/ammo_supply.gd" id="3_supply"]
+[ext_resource type="Script" path="res://scripts/unit_status_bars.gd" id="4_bars"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_olive"]
+albedo_color = Color(0.352941, 0.396078, 0.203922, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+material = SubResource("StandardMaterial3D_olive")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crate"]
+albedo_color = Color(0.501961, 0.411765, 0.219608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crate"]
+material = SubResource("StandardMaterial3D_crate")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ammo"]
+
+[node name="AmmoWagon" type="CharacterBody3D"]
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("1_health")
+max_hp = 80.0
+free_unit_on_death = false
+
+[node name="Ammo" type="Node" parent="."]
+script = ExtResource("2_ammo")
+max_ammo = 12
+
+[node name="AmmoSupply" type="Area3D" parent="."]
+script = ExtResource("3_supply")
+supply_range = 12.0
+rounds_per_second = 0.5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_body")
+
+[node name="Crates" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 0.35, 0, 0, 0, 0.7, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_crate")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0304761, 0.0335176)
+shape = SubResource("BoxShape3D_ammo")
+
+[node name="StatusBars" type="Node3D" parent="."]
+script = ExtResource("4_bars")

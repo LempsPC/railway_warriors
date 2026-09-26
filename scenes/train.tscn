@@ -1,12 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqi5jffitdiv3"]
+[gd_scene load_steps=5 format=3 uid="uid://bqi5jffitdiv3"]
 
 [ext_resource type="Script" uid="uid://ds6gsq811ngpk" path="res://scripts/train_navigation.gd" id="1_68jl8"]
 [ext_resource type="PackedScene" uid="uid://cwgnax2dmj1ku" path="res://scenes/wagon.tscn" id="2_wagon"]
+[ext_resource type="PackedScene" path="res://scenes/weapon.tscn" id="3_weapon"]
+[ext_resource type="PackedScene" path="res://scenes/ammo_wagon.tscn" id="4_ammo_wagon"]
 
 [node name="Train" type="Node3D"]
 script = ExtResource("1_68jl8")
 
 [node name="Wagon0" parent="." instance=ExtResource("2_wagon")]
 
+[node name="Weapon" parent="Wagon0" instance=ExtResource("3_weapon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
 [node name="Wagon1" parent="." instance=ExtResource("2_wagon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0)
+
+[node name="AmmoWagon" parent="." instance=ExtResource("4_ammo_wagon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)

@@ -177,6 +177,7 @@ func _route_dir(s: float) -> Vector3:
 	return d.normalized()
 
 func _physics_process(delta: float) -> void:
+	_prune_freed_wagons()
 	if wagons.is_empty() or route.size() < 2:
 		return
 
@@ -212,6 +213,19 @@ func _physics_process(delta: float) -> void:
 		var current_face = Vector3(cos(w.rotation.y), 0.0, -sin(w.rotation.y))
 		var face = dir if dir.dot(current_face) >= 0.0 else -dir
 		w.rotation.y = lerp_angle(w.rotation.y, atan2(-face.z, face.x), min(rotation_speed * delta, 1.0))
+
+# Units can be destroyed now (Health.free_unit_on_death), so the lists can hold
+# freed nodes. Player wagons currently opt out of that, but a dangling entry
+# here would crash the position loop, so drop them before touching anything.
+func _prune_freed_wagons() -> void:
+	for i in range(wagons.size() - 1, -1, -1):
+		if not is_instance_valid(wagons[i]):
+			wagons.remove_at(i)
+	for i in range(detached_wagons.size() - 1, -1, -1):
+		if not is_instance_valid(detached_wagons[i]):
+			detached_wagons.remove_at(i)
+	if pending_attach != null and not is_instance_valid(pending_attach):
+		pending_attach = null
 
 # --- Coupling ---
 

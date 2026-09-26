@@ -1,19 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://cwgnax2dmj1ku"]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/health.gd" id="1_health"]
 [ext_resource type="Script" path="res://scripts/ammo.gd" id="2_ammo"]
 [ext_resource type="Script" path="res://scripts/unit_status_bars.gd" id="3_bars"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_f48oq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enemy"]
+albedo_color = Color(0.72549, 0.133333, 0.133333, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_d43s7"]
+[sub_resource type="BoxMesh" id="BoxMesh_enemy"]
+material = SubResource("StandardMaterial3D_enemy")
 
-[node name="Wagon" type="CharacterBody3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_enemy"]
+
+[node name="EnemyWagon" type="CharacterBody3D"]
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("1_health")
 max_hp = 100.0
-free_unit_on_death = false
+faction = 1
 
 [node name="Ammo" type="Node" parent="."]
 script = ExtResource("2_ammo")
@@ -21,11 +25,11 @@ max_ammo = 12
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("BoxMesh_f48oq")
+mesh = SubResource("BoxMesh_enemy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0304761, 0.0335176)
-shape = SubResource("BoxShape3D_d43s7")
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_enemy")
 
 [node name="StatusBars" type="Node3D" parent="."]
 script = ExtResource("3_bars")
